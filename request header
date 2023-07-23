@@ -1,0 +1,37 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Feb 14 15:54:35 2020
+
+@author: weixinedu
+"""
+
+import json
+ 
+# 使用三引号将浏览器复制出来的requests headers参数赋值给一个变量
+headers = """
+GET /wiki/List_of_Indiana_University_(Bloomington)_people HTTP/2
+Host: en.wikipedia.org
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:108.0) Gecko/20100101 Firefox/108.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Cookie: WMF-Last-Access=17-Dec-2022; WMF-Last-Access-Global=17-Dec-2022; GeoIP=SG::Singapore:1.31:103.68:v4; enwikiwmE-sessionTickLastTickTime=1671254051525; enwikiwmE-sessionTickTickCount=1; enwikimwuser-sessionId=e61b43a18fc917c2bc3f
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+If-Modified-Since: Thu, 15 Dec 2022 22:25:37 GMT
+TE: trailers
+"""
+ 
+# 去除参数头尾的空格并按换行符分割
+headers = headers.strip().split('\n')
+ 
+# 使用字典生成式将参数切片重组，并去掉空格，处理带协议头中的://
+headers = {x.split(':')[0].strip(): (''.join(x.split(':')[1:])).strip().replace('//', "://") for x in headers}
+ 
+# 使用json模块将字典转化成json格式打印出来
+print(json.dumps(headers,indent=1))
+
